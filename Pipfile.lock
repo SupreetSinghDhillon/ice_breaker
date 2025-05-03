@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "09b846f5bf04e96a79db6e88ae1dbdb7e959f0a02bdcedca72ac315441cee408"
+            "sha256": "ecf7ef8c7abdda5df51787308868ca8e9dc81a808b8614cd1f82f407c59cae82"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -576,6 +576,15 @@
             "markers": "python_version >= '3.9' and python_version < '4.0'",
             "version": "==0.3.56"
         },
+        "langchain-ollama": {
+            "hashes": [
+                "sha256:9e747e7bda1b55cdfa344433814b035be3f06d1bae32b1ffb696ccfc12cfa8ae",
+                "sha256:f7516f2f22d912dba1286d644bff00c287799e758d7e465a1439244a1bb02820"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.9' and python_version < '4.0'",
+            "version": "==0.3.2"
+        },
         "langchain-openai": {
             "hashes": [
                 "sha256:0662db78620c2e5c3ccfc1c36dc959c0ddc80e6bdf7ef81632cbf4b2cc9b9461",
@@ -604,11 +613,11 @@
         },
         "langsmith": {
             "hashes": [
-                "sha256:bdecca4eb48ba1799e821a33dbdca318ab202faa71a5bfa7d2358be6c3fd7eeb",
-                "sha256:d49d9a12d24d3984d5b3e2b5915b525b4a29a4706ea9cadde43c980fba43fab0"
+                "sha256:24e2c26c0e1b24e7d3b954693c52e9764f168a4d8787f213b56c6067ba308d27",
+                "sha256:af706747fddcecb33c6147cd401ee83ded55b9458410885839993b55b8dea6f3"
             ],
             "markers": "python_version >= '3.9'",
-            "version": "==0.3.37"
+            "version": "==0.3.38"
         },
         "marshmallow": {
             "hashes": [
@@ -796,6 +805,14 @@
             ],
             "markers": "python_version >= '3.10'",
             "version": "==2.2.5"
+        },
+        "ollama": {
+            "hashes": [
+                "sha256:04312af2c5e72449aaebac4a2776f52ef010877c554103419d3f36066fe8af4c",
+                "sha256:1121439d49b96fa8339842965d0616eba5deb9f8c790786cdf4c0b3df4833802"
+            ],
+            "markers": "python_version >= '3.8' and python_version < '4.0'",
+            "version": "==0.4.8"
         },
         "openai": {
             "hashes": [
