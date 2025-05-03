@@ -2,7 +2,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_ollama import ChatOllama
-from linkedin import scrape_linkedin_profile
+from third_parties.linkedin import scrape_linkedin_profile
 
 if __name__ == "__main__":
     summary_template = """
@@ -25,14 +25,16 @@ if __name__ == "__main__":
         input_variables=["information"], template=summary_template
     )
 
-    # llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
+    llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
     # llm = ChatOpenAI(temperature=0, model_name="gpt-4")
-    llm = ChatOllama(model="llama2", temperature=0)
+    #llm = ChatOllama(model="llama2", temperature=0)
     parser = JsonOutputParser()
 
     chain = summary_prompt_template | llm | parser
-
-    result = chain.invoke({"information": information})
+    linkedin_data = scrape_linkedin_profile(
+        linkedin_profile_url="https://www.linkedin.com/in/kellyboyi/", mock=True
+    )
+    result = chain.invoke({"information": linkedin_data})
 
     # print(result)
 
