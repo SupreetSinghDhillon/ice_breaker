@@ -14,10 +14,11 @@ from langchain.agents import (
 
 from langchain import hub
 
+
 def lookup(name: str) -> str:
     llm = ChatOpenAI(
         temperature=0,
-        model_name = "gpt-4o-mini",
+        model_name="gpt-4o-mini",
     )
     template = """given the full name {name_of_person} I want you to get me a link to their Linkedin profile page.
     Your answer should contain only the URL."""
@@ -28,15 +29,15 @@ def lookup(name: str) -> str:
 
     tools_for_agent = [
         Tool(
-            name = "crawl Google for LinkedIn profile pages",
-            func = get_profile_url_tavily,
-            description="useful for when you need to get the LinkedIn Page URL."
+            name="crawl Google for LinkedIn profile pages",
+            func=get_profile_url_tavily,
+            description="useful for when you need to get the LinkedIn Page URL.",
         )
     ]
 
     react_prompt = hub.pull("hwchase17/react")
-    agent = create_react_agent(llm = llm, tools=tools_for_agent, prompt=react_prompt)
-    agent_executor = AgentExecutor(agent=agent, tools = tools_for_agent, verbose=True)
+    agent = create_react_agent(llm=llm, tools=tools_for_agent, prompt=react_prompt)
+    agent_executor = AgentExecutor(agent=agent, tools=tools_for_agent, verbose=True)
 
     result = agent_executor.invoke(
         input={"input": prompt_template.format_prompt(name_of_person=name)}
@@ -45,9 +46,6 @@ def lookup(name: str) -> str:
     linkedin_profile_url = result["output"]
     return linkedin_profile_url
 
+
 if __name__ == "__main__":
-    print(
-        lookup(
-            name = "Takdeer Kaur Grewal SFU"
-        )
-    )
+    print(lookup(name="Takdeer Kaur Grewal SFU"))

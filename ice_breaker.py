@@ -1,7 +1,9 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_ollama import ChatOllama 
+from langchain_ollama import ChatOllama
+from linkedin import scrape_linkedin_profile
+
 if __name__ == "__main__":
     summary_template = """
     Given the following information about a person:
@@ -20,12 +22,11 @@ if __name__ == "__main__":
     """
 
     summary_prompt_template = PromptTemplate(
-        input_variables=["information"],
-        template=summary_template
+        input_variables=["information"], template=summary_template
     )
 
-    #llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
-    #llm = ChatOpenAI(temperature=0, model_name="gpt-4")
+    # llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
+    # llm = ChatOpenAI(temperature=0, model_name="gpt-4")
     llm = ChatOllama(model="llama2", temperature=0)
     parser = JsonOutputParser()
 
