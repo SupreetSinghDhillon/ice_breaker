@@ -3,8 +3,15 @@ from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_ollama import ChatOllama
 from third_parties.linkedin import scrape_linkedin_profile
+from tools.tools import get_profile_url_tavily
+from agents.linkedin_lookup_agent import lookup
+from output_parsers import summary_parser
 
-if __name__ == "__main__":
+def ice_break_with(name: str) -> str:
+    linkedin_url = lookup(name = name)
+   
+    linkedin_data = scrape_linkedin_profile(linkedin_profile_url=linkedin_url, mock=True)
+
     summary_template = """
     Given the following information about a person:
 
@@ -15,28 +22,25 @@ if __name__ == "__main__":
     - "facts": a list of two interesting facts about the person
     """
 
-    information = """
-    Bhupinder "Bindy" Singh Johal (14 January 1971 – 20 December 1998) was an Indo-Canadian gangster from Vancouver, British Columbia, Canada. 
-    A self-confessed drug trafficker, he was known for his outspoken nature, blatant disregard for authority and his longtime rivalry with former mentors Ranjit Cheema and rival Punjabi Mafia faction led by the Dosanjh brothers and Robbie Kandola.
-    On 20 December 1998, Johal was fatally shot in the back of the head at a crowded nightclub in Vancouver.
-    """
-
     summary_prompt_template = PromptTemplate(
-        input_variables=["information"], template=summary_template
+        input_variables=["information"], 
+        template=summary_template,
+        partial_variables={"format_instructions": summary_parser.get_format_instructions()}
     )
 
     llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
-    # llm = ChatOpenAI(temperature=0, model_name="gpt-4")
-    #llm = ChatOllama(model="llama2", temperature=0)
     parser = JsonOutputParser()
 
-    chain = summary_prompt_template | llm | parser
-    linkedin_data = scrape_linkedin_profile(
-        linkedin_profile_url="https://www.linkedin.com/in/kellyboyi/", mock=True
-    )
+    chain = summary_prompt_template | llm | summary_parser
     result = chain.invoke({"information": linkedin_data})
 
-    # print(result)
+    return result
+    
 
-    print("Summary:", result["summary"])
-    print("Facts:", result["facts"])
+if __name__ == "__main__":
+
+    name = "Eden Marco"
+    result = ice_break_with(name)
+    print(result)
+    print (result.summary)
+    print (result.facts)
