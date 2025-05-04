@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ice Breaker</title>
+  </head>
+  <body>
+    <div id="ice-breaker-container">
+      <label for="name-input">Name:</label>
+      <input type="text" id="name-input" />
+      <button id="do-magic-button">Do Magic</button>
+    </div>
+    <div id="output"></div>
+
+    <script>
+      document
+        .getElementById("do-magic-button")
+        .addEventListener("click", async () => {
+          const name = document.getElementById("name-input").value;
+
+          const response = await fetch("/process", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({ name }),
+          });
+
+          const data = await response.json();
+
+          const outputDiv = document.getElementById("output");
+          outputDiv.innerHTML = `
+          <h3>Summary</h3>
+          <p>${data.summary}</p>
+          <h3>Facts</h3>
+          <ul>
+            ${data.facts.map((fact) => `<li>${fact}</li>`).join("")}
+          </ul>
+        `;
+        });
+    </script>
+  </body>
+</html>

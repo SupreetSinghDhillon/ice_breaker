@@ -3,11 +3,11 @@ from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_ollama import ChatOllama
 from third_parties.linkedin import scrape_linkedin_profile
-from tools.tools import get_profile_url_tavily
 from agents.linkedin_lookup_agent import lookup
 from output_parsers import summary_parser
+from output_parsers import Summary
 
-def ice_break_with(name: str) -> str:
+def ice_break_with(name: str) -> Summary:
     linkedin_url = lookup(name = name)
    
     linkedin_data = scrape_linkedin_profile(linkedin_profile_url=linkedin_url, mock=True)
@@ -32,7 +32,7 @@ def ice_break_with(name: str) -> str:
     parser = JsonOutputParser()
 
     chain = summary_prompt_template | llm | summary_parser
-    result = chain.invoke({"information": linkedin_data})
+    result: Summary = chain.invoke({"information": linkedin_data})
 
     return result
     
